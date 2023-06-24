@@ -19,8 +19,25 @@ const AuthForm = () => {
     const email=emailref.current.value;
     const pass=pasref.current.value;
     setIsloading(true);
+    
     if(isLogin){
-
+     const response=await fetch("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAtFxd7F_HPLaXFXOiu6O4BVBubD8KGMac",{
+      method:'POST',
+      body:JSON.stringify({
+        email:email,
+        password:pass,
+        returnSecureToken:true
+      }),headers:{
+        "content-type":"application/json",
+      },
+     });
+     if(response.ok){
+      const data=await response.json();
+      console.log(data);
+     }
+     else{
+      console.log(data.error.message);
+     }
     }
     else{
       const respose = await fetch(
