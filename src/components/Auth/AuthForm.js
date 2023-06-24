@@ -1,17 +1,21 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext} from 'react';
+import AuthContext from '../../store/auth-context';
 import React from 'react';
+
 
 import classes from './AuthForm.module.css';
 
 const AuthForm = () => {
   const emailref=useRef();
   const pasref=useRef();
+  const authctx=useContext(AuthContext);
 
   const [isLogin, setIsLogin] = useState(false);
   const [Isloading, setIsloading] = useState(false);
 
 
   const switchAuthModeHandler = () => {
+
     setIsLogin((prevState) => !prevState);
   };
   const submithandler=async (event)=>{
@@ -19,29 +23,29 @@ const AuthForm = () => {
     const email=emailref.current.value;
     const pass=pasref.current.value;
     setIsloading(true);
-    
     if(isLogin){
-     const response=await fetch("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAtFxd7F_HPLaXFXOiu6O4BVBubD8KGMac",{
-      method:'POST',
-      body:JSON.stringify({
-        email:email,
-        password:pass,
-        returnSecureToken:true
-      }),headers:{
-        "content-type":"application/json",
-      },
-     });
-     if(response.ok){
-      const data=await response.json();
-      console.log(data);
-     }
-     else{
-      console.log(data.error.message);
-     }
+      const respose = await fetch(
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDW55X8yrfY3DYfPEVnvQZamzWMl7FuhzE",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            email:email,
+            password:pass,
+            returnSecureToken:true
+          }),
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+        );
+        const data = await respose.json();
+        authctx.login(data.idToken)
+        console.log(data.idToken)
+
     }
     else{
       const respose = await fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAtFxd7F_HPLaXFXOiu6O4BVBubD8KGMac",
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDW55X8yrfY3DYfPEVnvQZamzWMl7FuhzE",
         {
           method: "POST",
           body: JSON.stringify({

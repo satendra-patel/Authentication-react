@@ -1,5 +1,5 @@
 import classes from './ProfileForm.module.css';
-
+import React from 'react';
 const ProfileForm = () => {
   return (
     <form className={classes.form}>
