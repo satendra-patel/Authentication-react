@@ -25,6 +25,12 @@ export const AuthContextProvider=(props)=>{
         login: loginhandler,
         logout: logouthandler
     }
+    if(contextValue.isLoggenIn){
+        setTimeout(()=>{
+            logouthandler();
+        },300000)
+    }
+
     return (
         <AuthContext.Provider value={contextValue}>{props.children}</AuthContext.Provider>
     )
